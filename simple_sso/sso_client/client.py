@@ -2,7 +2,7 @@
 from django.conf.urls import url
 from django.contrib.auth import login
 from django.contrib.auth.backends import ModelBackend
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 from django.http import HttpResponseRedirect
 from django.views.generic import View
 from itsdangerous import URLSafeTimedSerializer
@@ -113,7 +113,7 @@ class Client(object):
 
     def build_user(self, user_data):
         try:
-            user = User.objects.get(username=user_data['username'])
+            user = get_user_model().objects.get(username=user_data['username'])
         except User.DoesNotExist:
             user = User(**user_data)
         user.set_unusable_password()
